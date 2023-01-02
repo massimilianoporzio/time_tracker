@@ -7,14 +7,13 @@ import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
 //LA FACCIO DIPENDERE DALLA AUTH BASE
 
 class SignInPage extends StatelessWidget {
-  final void Function(User?) onSignIn;
   final AuthBase auth;
-  const SignInPage({super.key, required this.onSignIn, required this.auth});
+  const SignInPage({super.key, required this.auth});
 
   Future<void> _signInAnonimously() async {
     try {
-      final user = await auth.signInAnonymously();
-      onSignIn(user);
+      await auth.signInAnonymously();
+      // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
     } on Exception catch (e) {
       // TODO
       print(e.toString());
