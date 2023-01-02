@@ -13,6 +13,14 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   //*variabile di stato per vedere se loggato
   User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    //*CONTROLLO SE SONO GIA' LOGGATO
+    _updateUser(FirebaseAuth.instance.currentUser);
+  }
+
   //*definisco la funzione che prenderà (nel widget a cui la passo) in input lo user
   void _updateUser(User? user) {
     setState(() {
