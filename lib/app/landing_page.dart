@@ -19,6 +19,10 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
+    // //*ASCOLTO LO STREAM DI USER..QUANDO ARRIVA QUALCOSA INVOCO FUNZIONE
+    // widget.auth.authStateChanges().listen((user) {
+    //   print('uid: ${user?.uid}');
+    // });
     //*CONTROLLO SE SONO GIA' LOGGATO
     _updateUser(widget.auth.currentUser);
   }
@@ -34,10 +38,21 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _user != null
-        ? HomePage(auth: widget.auth, onSignOut: (() => _updateUser(null)))
-        : SignInPage(
-            auth: widget.auth,
-            onSignIn: _updateUser); //*al momento manda solo alla signIn
+    //*CON STRERAMBUILDER ASCOLTO LO STREAM
+    return StreamBuilder<User?>(
+      stream: widget.auth.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final User? user = snapshot.data;
+          return user != null
+              ? HomePage(
+                  auth: widget.auth, onSignOut: (() => _updateUser(null)))
+              : SignInPage(auth: widget.auth, onSignIn: _updateUser);
+        }
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      },
+    );
   }
 }
