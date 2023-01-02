@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "391848317273",
+    "project_id": "flutter-firebase-auth-66211",
+    "storage_bucket": "flutter-firebase-auth-66211.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391848317273:android:0edf9abc4516ee95247c48",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase_auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391848317273-53vlmndq0ql6ii6is85j79bfq5cjbjt1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_firebase_auth",
+            "certificate_hash": "ca75b19832e325e60976dd6676f2221a4bff3c9a"
+          }
+        },
+        {
+          "client_id": "391848317273-ml1evi9sfbbvlp8mkugm5kk79jsbroii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_firebase_auth",
+            "certificate_hash": "4339f23512dc88320bf3ba9f6597c42b521aa891"
+          }
+        },
+        {
+          "client_id": "391848317273-49qrvsrtmkocpe0gvl6u2c1f5jh4frit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq42lqR7tyJKObTSalYT54OV61PkH6y9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391848317273-49qrvsrtmkocpe0gvl6u2c1f5jh4frit.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "391848317273-883e35d7tc4ffmo5cdpf1rlo77bg4qe3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.timeTracker"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391848317273:android:2bd3e8d424b5f5fc247c48",
+        "android_client_info": {
+          "package_name": "com.massimilianoporzio.time_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391848317273-3eahbk9mja9mdedfkka1klerese06oh6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.massimilianoporzio.time_tracker",
+            "certificate_hash": "4339f23512dc88320bf3ba9f6597c42b521aa891"
+          }
+        },
+        {
+          "client_id": "391848317273-49qrvsrtmkocpe0gvl6u2c1f5jh4frit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq42lqR7tyJKObTSalYT54OV61PkH6y9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391848317273-49qrvsrtmkocpe0gvl6u2c1f5jh4frit.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "391848317273-883e35d7tc4ffmo5cdpf1rlo77bg4qe3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.timeTracker"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
