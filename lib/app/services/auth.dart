@@ -5,7 +5,7 @@ abstract class AuthBase {
   User? get currentUser;
   Future<User> signInAnonymously();
   Future<void> signOut();
-  Stream<User?> authStateChanges(); //rest stream di User
+  Stream<User?> authStateChanged(); //rest stream di User
 }
 
 //* la class Auth CENTRALIZZA le chiamate a FIREBASE AUTH
@@ -18,7 +18,7 @@ class AuthFireBase implements AuthBase {
 
   //*USO STREAM
   @override
-  Stream<User?> authStateChanges() {
+  Stream<User?> authStateChanged() {
     return _firebaseAuth.authStateChanges();
   }
 
