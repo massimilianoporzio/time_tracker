@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:time_tracker/app/landing_page.dart';
+import 'package:time_tracker/app/services/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: const LandingPage(),
+      //* QUI DEPENDENCY INJECTION inietto l'auth firebase
+      //*un domani posso cambiare SOLO QUI e tutto funziona
+      home: LandingPage(
+        auth: AuthFireBase(),
+      ),
     );
   }
 }

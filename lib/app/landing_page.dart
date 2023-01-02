@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:time_tracker/app/sign_in/home_page.dart';
+import 'package:time_tracker/app/home_page.dart';
+import 'package:time_tracker/app/services/auth.dart';
 import 'package:time_tracker/app/sign_in/signin_page.dart';
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({super.key});
+  final AuthBase auth;
+  const LandingPage({super.key, required this.auth});
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -18,7 +20,7 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     //*CONTROLLO SE SONO GIA' LOGGATO
-    _updateUser(FirebaseAuth.instance.currentUser);
+    _updateUser(widget.auth.currentUser);
   }
 
   //*definisco la funzione che prenderà (nel widget a cui la passo) in input lo user
@@ -33,8 +35,9 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return _user != null
-        ? HomePage(onSignOut: (() => _updateUser(null)))
+        ? HomePage(auth: widget.auth, onSignOut: (() => _updateUser(null)))
         : SignInPage(
+            auth: widget.auth,
             onSignIn: _updateUser); //*al momento manda solo alla signIn
   }
 }
