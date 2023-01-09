@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:time_tracker/app/services/auth.dart';
 import 'package:time_tracker/app/sign_in/signin_button.dart';
 import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
@@ -23,6 +24,15 @@ class SignInPage extends StatelessWidget {
   Future<void> _signInWithGoogle() async {
     try {
       await auth.signInWithGoogle();
+    } on Exception catch (e) {
+      // TODO
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithFacebook() async {
+    try {
+      await auth.signInWithFacebook();
     } on Exception catch (e) {
       // TODO
       print(e.toString());
@@ -71,7 +81,7 @@ class SignInPage extends StatelessWidget {
               text: "Sign in with Faecbook",
               color: const Color(0xFF334092),
               textColor: Colors.white,
-              onPressed: () {}),
+              onPressed: _signInWithFacebook),
           const SizedBox(
             height: 8.0,
           ),

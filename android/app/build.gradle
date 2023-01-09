@@ -52,6 +52,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -70,6 +71,8 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //import facebook stuff
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     // TODO: Add the dependencies for Firebase products you want to use
