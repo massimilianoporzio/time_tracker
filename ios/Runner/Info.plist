@@ -15,7 +15,7 @@
 	<key>FacebookAppID</key>
 	<string>1338901980267542</string>
 	<key>FacebookClientToken</key>
-	<string>6e04b11b2cb3ef83b63f2d83f499e769</string>
+	<string>$(FB_API_KEY)</string>
 	<key>FacebookDisplayName</key>
 	<string>Time tracker</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
