@@ -17,7 +17,7 @@ class EmailSignInPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          child: const EmailSignInForm(),
+          child: EmailSignInForm(),
         ),
       ),
     );
