@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker/app/services/auth.dart';
-import 'package:time_tracker/app/services/auth_provider.dart';
 import 'package:time_tracker/common_widgets/show_alert_dialog.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
   }
 
   Future<void> _signOut(BuildContext context) async {
-    final auth = AuthProvider.of(context);
+    final auth = Provider.of<AuthBase>(context);
 
     try {
       await auth.signOut();

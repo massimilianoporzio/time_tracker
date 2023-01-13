@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
-import 'package:time_tracker/app/services/auth.dart';
-import 'package:time_tracker/app/services/auth_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker/app/sign_in/email_sign_in_page.dart';
 import 'package:time_tracker/app/sign_in/signin_button.dart';
 import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
+
+import '../services/auth.dart';
 
 //LA FACCIO DIPENDERE DALLA AUTH BASE
 //e primo appraccio mando auth a tutti i sotto wisget che ne hanno bisogno
@@ -15,7 +14,8 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonimously(BuildContext context) async {
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context);
+
       await auth.signInAnonymously();
       // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
     } on Exception catch (e) {
@@ -25,7 +25,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context);
       await auth.signInWithGoogle();
     } on Exception catch (e) {
       print(e.toString());
@@ -34,7 +34,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context);
       await auth.signInWithFacebook();
     } on Exception catch (e) {
       print(e.toString());
