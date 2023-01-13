@@ -7,6 +7,7 @@ import 'package:time_tracker/app/sign_in/signin_button.dart';
 import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
 
 //LA FACCIO DIPENDERE DALLA AUTH BASE
+//e primo appraccio mando auth a tutti i sotto wisget che ne hanno bisogno
 
 class SignInPage extends StatelessWidget {
   final AuthBase auth;
@@ -17,7 +18,6 @@ class SignInPage extends StatelessWidget {
       await auth.signInAnonymously();
       // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
     } on Exception catch (e) {
-      // TODO
       print(e.toString());
     }
   }
@@ -26,7 +26,6 @@ class SignInPage extends StatelessWidget {
     try {
       await auth.signInWithGoogle();
     } on Exception catch (e) {
-      // TODO
       print(e.toString());
     }
   }
@@ -35,16 +34,16 @@ class SignInPage extends StatelessWidget {
     try {
       await auth.signInWithFacebook();
     } on Exception catch (e) {
-      // TODO
       print(e.toString());
     }
   }
 
   void _signInWithEmail(BuildContext context) {
-    // TODO: Show EmailSignInPage
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true, //*slide from the bottom
-      builder: (context) => const EmailSignInPage(),
+      builder: (context) => EmailSignInPage(
+        auth: auth,
+      ),
     ));
   }
 
