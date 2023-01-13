@@ -54,7 +54,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       _submitted = true;
     });
     try {
-      final auth = Provider.of<AuthBase>(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
 
       //await Future.delayed(const Duration(seconds: 3));
       if (_formType == EmailSignInFormType.signin) {

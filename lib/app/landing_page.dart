@@ -11,7 +11,9 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context); //LA CERCO CON PROVIDER
+    //*listen:false qui non ho uno stato da tenere aggiornato
+    final auth =
+        Provider.of<AuthBase>(context, listen: false); //LA CERCO CON PROVIDER
 
     //*CON STRERAMBUILDER ASCOLTO LO STREAM
     return StreamBuilder<User?>(

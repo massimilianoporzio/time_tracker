@@ -14,7 +14,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonimously(BuildContext context) async {
     try {
-      final auth = Provider.of<AuthBase>(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
 
       await auth.signInAnonymously();
       // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
@@ -25,7 +25,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      final auth = Provider.of<AuthBase>(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithGoogle();
     } on Exception catch (e) {
       print(e.toString());
@@ -34,7 +34,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      final auth = Provider.of<AuthBase>(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
     } on Exception catch (e) {
       print(e.toString());
