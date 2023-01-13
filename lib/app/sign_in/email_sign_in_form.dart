@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:time_tracker/app/services/auth.dart';
 import 'package:time_tracker/app/sign_in/validators.dart';
 import 'package:time_tracker/common_widgets/form_signin_button.dart';
+import 'package:time_tracker/common_widgets/show_alert_dialog.dart';
 
 enum EmailSignInFormType { register, signin }
 
@@ -66,7 +67,10 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         Navigator.of(context).pop(); //rimando a pagina
       }
     } on Exception catch (e) {
-      print(e.toString());
+      showAlertDialog(context,
+          title: "Sign in failed",
+          content: e.toString(),
+          defaultActionText: "OK");
     } finally {
       setState(() {
         _isLoading = false;
