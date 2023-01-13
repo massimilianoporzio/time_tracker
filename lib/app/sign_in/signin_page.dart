@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:time_tracker/app/services/auth.dart';
+import 'package:time_tracker/app/services/auth_provider.dart';
 import 'package:time_tracker/app/sign_in/email_sign_in_page.dart';
 import 'package:time_tracker/app/sign_in/signin_button.dart';
 import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
@@ -10,11 +11,11 @@ import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
 //e primo appraccio mando auth a tutti i sotto wisget che ne hanno bisogno
 
 class SignInPage extends StatelessWidget {
-  final AuthBase auth;
-  const SignInPage({super.key, required this.auth});
+  const SignInPage({super.key});
 
-  Future<void> _signInAnonimously() async {
+  Future<void> _signInAnonimously(BuildContext context) async {
     try {
+      final auth = AuthProvider.of(context);
       await auth.signInAnonymously();
       // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
     } on Exception catch (e) {
@@ -22,16 +23,18 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  Future<void> _signInWithGoogle() async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
     try {
+      final auth = AuthProvider.of(context);
       await auth.signInWithGoogle();
     } on Exception catch (e) {
       print(e.toString());
     }
   }
 
-  Future<void> _signInWithFacebook() async {
+  Future<void> _signInWithFacebook(BuildContext context) async {
     try {
+      final auth = AuthProvider.of(context);
       await auth.signInWithFacebook();
     } on Exception catch (e) {
       print(e.toString());
@@ -41,9 +44,7 @@ class SignInPage extends StatelessWidget {
   void _signInWithEmail(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true, //*slide from the bottom
-      builder: (context) => EmailSignInPage(
-        auth: auth,
-      ),
+      builder: (context) => const EmailSignInPage(),
     ));
   }
 
@@ -80,7 +81,7 @@ class SignInPage extends StatelessWidget {
               assetName: "images/google-logo.png",
               color: Colors.white,
               textColor: Colors.black87,
-              onPressed: _signInWithGoogle),
+              onPressed: (() => _signInWithGoogle(context))),
           const SizedBox(
             height: 8.0,
           ),
@@ -89,7 +90,7 @@ class SignInPage extends StatelessWidget {
               text: "Sign in with Faecbook",
               color: const Color(0xFF334092),
               textColor: Colors.white,
-              onPressed: _signInWithFacebook),
+              onPressed: (() => _signInWithFacebook(context))),
           const SizedBox(
             height: 8.0,
           ),
@@ -113,7 +114,7 @@ class SignInPage extends StatelessWidget {
             text: "Go anonymous",
             color: Colors.lime[700]!,
             textColor: Colors.black,
-            onPressed: _signInAnonimously,
+            onPressed: () => _signInAnonimously(context),
           ),
         ],
       ),

@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:time_tracker/app/services/auth.dart';
+import 'package:time_tracker/app/services/auth_provider.dart';
 import 'package:time_tracker/common_widgets/show_alert_dialog.dart';
 
 class HomePage extends StatelessWidget {
-  final AuthBase auth;
-  const HomePage({super.key, required this.auth});
+  const HomePage({super.key});
 
   Future<void> _confirmSignOut(BuildContext context) async {
     final didRequestSignOut = await showAlertDialog(context,
@@ -13,11 +15,13 @@ class HomePage extends StatelessWidget {
         defaultActionText: 'Logout',
         cancelActionText: 'Cancel');
     if (didRequestSignOut!) {
-      _signOut();
+      _signOut(context);
     }
   }
 
-  Future<void> _signOut() async {
+  Future<void> _signOut(BuildContext context) async {
+    final auth = AuthProvider.of(context);
+
     try {
       await auth.signOut();
       // onSignOut(); //*NON USO PIU CALLBACKS MA STREAMS!
