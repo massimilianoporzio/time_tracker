@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/app/sign_in/email_sign_in_page.dart';
 import 'package:time_tracker/app/sign_in/signin_button.dart';
 import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
+import 'package:time_tracker/common_widgets/show_exception_alert_dialog.dart';
 
 import '../services/auth.dart';
 
@@ -12,6 +14,19 @@ import '../services/auth.dart';
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
 
+  void _showSignInError(BuildContext context, Exception exception) {
+    if (exception is FirebaseException &&
+        exception.code == 'ERROR_ABORTED_BY_USER') {
+      return; //non mostro nulla è l'utente che ha cancellato login
+      //* ERROR_ABORTED_BY_USER l'ho creato io quando l'utente torna indetro da Google e Facebook
+    }
+    showExceptionAlertDialog(
+      context,
+      title: "Sign in failed",
+      exception: exception,
+    );
+  }
+
   Future<void> _signInAnonimously(BuildContext context) async {
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
@@ -19,7 +34,7 @@ class SignInPage extends StatelessWidget {
       await auth.signInAnonymously();
       // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
     } on Exception catch (e) {
-      print(e.toString());
+      _showSignInError(context, e);
     }
   }
 
@@ -28,7 +43,7 @@ class SignInPage extends StatelessWidget {
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithGoogle();
     } on Exception catch (e) {
-      print(e.toString());
+      _showSignInError(context, e);
     }
   }
 
@@ -37,7 +52,7 @@ class SignInPage extends StatelessWidget {
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
     } on Exception catch (e) {
-      print(e.toString());
+      _showSignInError(context, e);
     }
   }
 
