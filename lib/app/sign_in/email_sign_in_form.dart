@@ -5,6 +5,7 @@ import 'package:time_tracker/app/services/auth.dart';
 import 'package:time_tracker/app/sign_in/validators.dart';
 import 'package:time_tracker/common_widgets/form_signin_button.dart';
 import 'package:time_tracker/common_widgets/show_alert_dialog.dart';
+import 'package:time_tracker/common_widgets/show_exception_alert_dialog.dart';
 
 enum EmailSignInFormType { register, signin }
 
@@ -68,10 +69,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         Navigator.of(context).pop(); //rimando a pagina
       }
     } on FirebaseAuthException catch (e) {
-      showAlertDialog(context,
-          title: "Sign in failed",
-          content: e.message!,
-          defaultActionText: "OK");
+      showExceptionAlertDialog(
+        context,
+        title: "Sign in failed",
+        exception: e,
+      );
     } finally {
       setState(() {
         _isLoading = false;
