@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/app/sign_in/email_sign_in_form.dart';
+import 'email_sign_in_form_stateful.dart';
 
 class EmailSignInPage extends StatelessWidget {
   const EmailSignInPage({super.key});
@@ -17,7 +17,7 @@ class EmailSignInPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          child: EmailSignInForm(),
+          child: EmailSignInFormStateful(),
         ),
       ),
     );

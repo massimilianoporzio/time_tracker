@@ -1,22 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/app/services/auth.dart';
-import 'package:time_tracker/app/sign_in/validators.dart';
-import 'package:time_tracker/common_widgets/form_signin_button.dart';
-import 'package:time_tracker/common_widgets/show_alert_dialog.dart';
-import 'package:time_tracker/common_widgets/show_exception_alert_dialog.dart';
+
+import '../../common_widgets/form_signin_button.dart';
+import '../../common_widgets/show_exception_alert_dialog.dart';
+import '../services/auth.dart';
+import 'validators.dart';
 
 enum EmailSignInFormType { register, signin }
 
-class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidator {
-  EmailSignInForm({super.key});
+class EmailSignInFormStateful extends StatefulWidget
+    with EmailAndPasswordValidator {
+  EmailSignInFormStateful({super.key});
 
   @override
-  State<EmailSignInForm> createState() => _EmailSignInFormState();
+  State<EmailSignInFormStateful> createState() =>
+      _EmailSignInFormStatefulState();
 }
 
-class _EmailSignInFormState extends State<EmailSignInForm> {
+class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
