@@ -13,8 +13,9 @@ import '../services/auth.dart';
 class SignInPage extends StatelessWidget {
   final SignInBloc bloc;
   static Widget create(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
     return Provider<SignInBloc>(
-      create: (context) => SignInBloc(),
+      create: (context) => SignInBloc(auth: auth),
       dispose: (context, bloc) => bloc.dispose(),
       //*mi diche che SignInPage è un consumer di SignInBloc
       child: Consumer<SignInBloc>(
@@ -42,39 +43,25 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonimously(BuildContext context) async {
     try {
-      bloc.setIsLoading(true); //passo al bloc true
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signInAnonymously();
-      // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
+      await bloc.signInAnonymously();
     } on Exception catch (e) {
       _showSignInError(context, e);
-    } finally {
-      //+passo al bloc false
-      bloc.setIsLoading(false);
     }
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      bloc.setIsLoading(true);
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signInWithGoogle();
+      await bloc.signInWithGoogle();
     } on Exception catch (e) {
       _showSignInError(context, e);
-    } finally {
-      bloc.setIsLoading(false);
     }
   }
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      bloc.setIsLoading(true); //*NON CAMBIO LO STATO MA MANDO AL BLOC IL VALORE
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signInWithFacebook();
+      await bloc.signInWithFacebook();
     } on Exception catch (e) {
       _showSignInError(context, e);
-    } finally {
-      bloc.setIsLoading(false);
     }
   }
 
