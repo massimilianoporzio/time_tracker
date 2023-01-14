@@ -4,13 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import '../../services/auth.dart';
 
-class SignInBloc {
+class SignInManager {
   //*metto AuthBase come sua dipendenza
   final AuthBase auth;
   //*NON USO STREAMS MA SOLO VALUE NOTIFIER PER LO STATO ISLOADING
   final ValueNotifier<bool> isLoading;
 
-  SignInBloc({required this.isLoading, required this.auth});
+  SignInManager({required this.isLoading, required this.auth});
 
   //*creo metodo che accetta una funz come input
   Future<User?> _signIn(Future<User?> Function() signInMethod) async {

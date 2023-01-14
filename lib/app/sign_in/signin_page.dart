@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'blocs/sign_in_bloc.dart';
+import 'blocs/sign_in_manager.dart';
 import 'email_sign_in_page.dart';
 import 'signin_button.dart';
 import 'social_sign_in_button.dart';
@@ -11,27 +11,27 @@ import '../services/auth.dart';
 
 //La faccio dipendere dal bloc direttamente così non faccio provider of mille volte
 class SignInPage extends StatelessWidget {
-  final SignInBloc bloc;
+  final SignInManager manager;
   final bool isLoading;
 
-  const SignInPage({super.key, required this.bloc, required this.isLoading});
+  const SignInPage({super.key, required this.manager, required this.isLoading});
 
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    //*il bloc riceve auth dal ancestor,
+    //*il manager riceve auth dal ancestor,
     //* e il ValueNotifier dal ChangeNotifierProvider
     //* essendo lui circondato dal consumer
     return ChangeNotifierProvider<ValueNotifier<bool>>(
       create: (context) => ValueNotifier<bool>(false),
       child: Consumer<ValueNotifier<bool>>(
-        builder: (_, isLoading, __) => Provider<SignInBloc>(
-          create: (context) => SignInBloc(auth: auth, isLoading: isLoading),
+        builder: (_, isLoading, __) => Provider<SignInManager>(
+          create: (context) => SignInManager(auth: auth, isLoading: isLoading),
 
           //*mi diche che SignInPage è un consumer di SignInBloc
-          child: Consumer<SignInBloc>(
+          child: Consumer<SignInManager>(
             builder: (_, bloc, __) {
               return SignInPage(
-                bloc: bloc,
+                manager: bloc,
                 isLoading: isLoading.value,
               );
             },
@@ -56,7 +56,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonimously(BuildContext context) async {
     try {
-      await bloc.signInAnonymously();
+      await manager.signInAnonymously();
     } on Exception catch (e) {
       _showSignInError(context, e);
     }
@@ -64,7 +64,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      await bloc.signInWithGoogle();
+      await manager.signInWithGoogle();
     } on Exception catch (e) {
       _showSignInError(context, e);
     }
@@ -72,7 +72,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      await bloc.signInWithFacebook();
+      await manager.signInWithFacebook();
     } on Exception catch (e) {
       _showSignInError(context, e);
     }
