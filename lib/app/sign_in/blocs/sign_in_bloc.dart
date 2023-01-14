@@ -23,9 +23,11 @@ class SignInBloc {
       _setIsLoading(true);
       return await signInMethod();
     } catch (e) {
+      _setIsLoading(false); //*solo in caso di errore!
       rethrow;
     } finally {
-      _setIsLoading(false);
+      //*lo stream viene chiuso in caso di successo perché la signin page viene
+      //* tolta dall'albero dei widget perché finisco sulla home page
     }
   }
 
