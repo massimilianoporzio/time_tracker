@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:time_tracker/app/services/auth.dart';
+import '../../services/auth.dart';
 
 class SignInBloc {
   //*metto AuthBase come sua dipendenza
