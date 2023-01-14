@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/app/landing_page.dart';
-import 'package:time_tracker/app/services/auth.dart';
+import 'app/landing_page.dart';
+import 'app/services/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

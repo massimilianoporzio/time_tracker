@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/app/sign_in/email_sign_in_page.dart';
-import 'package:time_tracker/app/sign_in/signin_button.dart';
-import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
-import 'package:time_tracker/common_widgets/show_exception_alert_dialog.dart';
+import 'email_sign_in_page.dart';
+import 'signin_button.dart';
+import 'social_sign_in_button.dart';
+import '../../common_widgets/show_exception_alert_dialog.dart';
 
 import '../services/auth.dart';
 
