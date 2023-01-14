@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/app/sign_in/blocs/sign_in_bloc.dart';
 import 'package:time_tracker/app/sign_in/email_sign_in_page.dart';
 import 'package:time_tracker/app/sign_in/signin_button.dart';
 import 'package:time_tracker/app/sign_in/social_sign_in_button.dart';
@@ -9,23 +8,18 @@ import 'package:time_tracker/common_widgets/show_exception_alert_dialog.dart';
 
 import '../services/auth.dart';
 
-//La faccio dipendere dal bloc direttamente così non faccio provider of mille volte
-class SignInPage extends StatelessWidget {
-  final SignInBloc bloc;
-  static Widget create(BuildContext context) {
-    return Provider<SignInBloc>(
-      create: (context) => SignInBloc(),
-      dispose: (context, bloc) => bloc.dispose(),
-      //*mi diche che SignInPage è un consumer di SignInBloc
-      child: Consumer<SignInBloc>(
-        builder: (context, bloc, child) {
-          return SignInPage(bloc: bloc);
-        },
-      ),
-    );
-  }
+//LA FACCIO DIPENDERE DALLA AUTH BASE
+//e primo appraccio mando auth a tutti i sotto wisget che ne hanno bisogno
 
-  const SignInPage({super.key, required this.bloc});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  bool _isLoading = false;
 
   void _showSignInError(BuildContext context, Exception exception) {
     if (exception is FirebaseException &&
@@ -42,39 +36,51 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonimously(BuildContext context) async {
     try {
-      bloc.setIsLoading(true); //passo al bloc true
+      setState(() {
+        _isLoading = true;
+      });
       final auth = Provider.of<AuthBase>(context, listen: false);
+
       await auth.signInAnonymously();
       // onSignIn(user); //* NON USO PIU CALLBACKS MA STREAMS
     } on Exception catch (e) {
       _showSignInError(context, e);
     } finally {
-      //+passo al bloc false
-      bloc.setIsLoading(false);
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      bloc.setIsLoading(true);
+      setState(() {
+        _isLoading = true;
+      });
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithGoogle();
     } on Exception catch (e) {
       _showSignInError(context, e);
     } finally {
-      bloc.setIsLoading(false);
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      bloc.setIsLoading(true); //*NON CAMBIO LO STATO MA MANDO AL BLOC IL VALORE
+      setState(() {
+        _isLoading = true;
+      });
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
     } on Exception catch (e) {
       _showSignInError(context, e);
     } finally {
-      bloc.setIsLoading(false);
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -94,17 +100,11 @@ class SignInPage extends StatelessWidget {
         title: const Text("Time Tracker"),
         elevation: 2.0,
       ),
-      body: StreamBuilder<bool>(
-        stream: bloc.isLoadingStream,
-        initialData: false,
-        builder: (context, snapshot) {
-          return _buildContent(context, snapshot.data!);
-        },
-      ),
+      body: _buildContent(context),
     );
   }
 
-  Widget _buildContent(BuildContext context, bool isLoading) {
+  Widget _buildContent(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -113,7 +113,7 @@ class SignInPage extends StatelessWidget {
         children: [
           SizedBox(
             height: 50,
-            child: _buildHeader(isLoading),
+            child: _buildHeader(),
           ),
           const SizedBox(
             height: 48.0,
@@ -123,7 +123,7 @@ class SignInPage extends StatelessWidget {
               assetName: "images/google-logo.png",
               color: Colors.white,
               textColor: Colors.black87,
-              onPressed: isLoading ? null : () => _signInWithGoogle(context)),
+              onPressed: _isLoading ? null : () => _signInWithGoogle(context)),
           const SizedBox(
             height: 8.0,
           ),
@@ -132,7 +132,8 @@ class SignInPage extends StatelessWidget {
               text: "Sign in with Faecbook",
               color: const Color(0xFF334092),
               textColor: Colors.white,
-              onPressed: isLoading ? null : () => _signInWithFacebook(context)),
+              onPressed:
+                  _isLoading ? null : () => _signInWithFacebook(context)),
           const SizedBox(
             height: 8.0,
           ),
@@ -140,7 +141,7 @@ class SignInPage extends StatelessWidget {
               text: "Sign in with email",
               color: Colors.teal[700]!,
               textColor: Colors.white,
-              onPressed: isLoading ? null : () => _signInWithEmail(context)),
+              onPressed: _isLoading ? null : () => _signInWithEmail(context)),
           const SizedBox(
             height: 8.0,
           ),
@@ -156,15 +157,15 @@ class SignInPage extends StatelessWidget {
             text: "Go anonymous",
             color: Colors.lime[700]!,
             textColor: Colors.black,
-            onPressed: isLoading ? null : () => _signInAnonimously(context),
+            onPressed: _isLoading ? null : () => _signInAnonimously(context),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildHeader(bool isLoading) {
-    if (isLoading) {
+  Widget _buildHeader() {
+    if (_isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
       );
