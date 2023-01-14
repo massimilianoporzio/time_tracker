@@ -12,21 +12,34 @@ import '../services/auth.dart';
 //La faccio dipendere dal bloc direttamente così non faccio provider of mille volte
 class SignInPage extends StatelessWidget {
   final SignInBloc bloc;
+  final bool isLoading;
+
+  const SignInPage({super.key, required this.bloc, required this.isLoading});
+
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    return Provider<SignInBloc>(
-      create: (context) => SignInBloc(auth: auth),
-      dispose: (context, bloc) => bloc.dispose(),
-      //*mi diche che SignInPage è un consumer di SignInBloc
-      child: Consumer<SignInBloc>(
-        builder: (context, bloc, child) {
-          return SignInPage(bloc: bloc);
-        },
+    //*il bloc riceve auth dal ancestor,
+    //* e il ValueNotifier dal ChangeNotifierProvider
+    //* essendo lui circondato dal consumer
+    return ChangeNotifierProvider<ValueNotifier<bool>>(
+      create: (context) => ValueNotifier<bool>(false),
+      child: Consumer<ValueNotifier<bool>>(
+        builder: (_, isLoading, __) => Provider<SignInBloc>(
+          create: (context) => SignInBloc(auth: auth, isLoading: isLoading),
+
+          //*mi diche che SignInPage è un consumer di SignInBloc
+          child: Consumer<SignInBloc>(
+            builder: (_, bloc, __) {
+              return SignInPage(
+                bloc: bloc,
+                isLoading: isLoading.value,
+              );
+            },
+          ),
+        ),
       ),
     );
   }
-
-  const SignInPage({super.key, required this.bloc});
 
   void _showSignInError(BuildContext context, Exception exception) {
     if (exception is FirebaseException &&
@@ -75,23 +88,16 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Time Tracker"),
-        elevation: 2.0,
-      ),
-      body: StreamBuilder<bool>(
-        stream: bloc.isLoadingStream,
-        initialData: false,
-        builder: (context, snapshot) {
-          return _buildContent(context, snapshot.data!);
-        },
-      ),
-    );
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Time Tracker"),
+          elevation: 2.0,
+        ),
+        body: _buildContent(context));
   }
 
-  Widget _buildContent(BuildContext context, bool isLoading) {
+  Widget _buildContent(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -100,7 +106,7 @@ class SignInPage extends StatelessWidget {
         children: [
           SizedBox(
             height: 50,
-            child: _buildHeader(isLoading),
+            child: _buildHeader(),
           ),
           const SizedBox(
             height: 48.0,
@@ -150,7 +156,7 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(bool isLoading) {
+  Widget _buildHeader() {
     if (isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
