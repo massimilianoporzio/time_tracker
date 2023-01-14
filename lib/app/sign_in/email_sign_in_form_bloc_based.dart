@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/app/sign_in/blocs/email_sign_in_bloc.dart';
+import 'blocs/email_sign_in_bloc.dart';
 
 import '../../common_widgets/form_signin_button.dart';
 import '../../common_widgets/show_exception_alert_dialog.dart';

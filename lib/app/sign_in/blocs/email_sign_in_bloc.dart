@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:time_tracker/app/services/auth.dart';
-import 'package:time_tracker/app/sign_in/models/email_sign_in_model.dart';
+import '../../services/auth.dart';
+import '../models/email_sign_in_model.dart';
 
 class EmailSignInBloc {
   final AuthBase auth;
